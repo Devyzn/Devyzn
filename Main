@@ -13,7 +13,7 @@ from PIL import ImageTk, Image
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 IMG_DIR = os.path.join(CURRENT_DIR, "Img")  # Directory containing images
-VERSION_URL = "https://example.com/version.json"
+VERSION_URL = "https://github.com/Devyzn/Devyzn/blob/main/version"
 CURRENT_VERSION = "1.0.0"
 
 SETTINGS_FILE = os.path.join(CURRENT_DIR, "settings.json")
