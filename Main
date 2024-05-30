@@ -13,7 +13,7 @@ from PIL import ImageTk, Image
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 IMG_DIR = os.path.join(CURRENT_DIR, "Img")  # Directory containing images
-VERSION_URL = "https://github.com/Devyzn/Devyzn/blob/main/version"
+VERSION_URL = "https://api.github.com/Devyzn/Devyzn/releases/latest"
 CURRENT_VERSION = "1.0.0"
 
 SETTINGS_FILE = os.path.join(CURRENT_DIR, "settings.json")
@@ -23,8 +23,8 @@ def check_for_updates():
         response = requests.get(VERSION_URL)
         if response.status_code == 200:
             latest_version_info = response.json()
-            latest_version = latest_version_info["version"]
-            download_url = latest_version_info["download_url"]
+            latest_version = latest_version_info["tag_name"]  # Assuming GitHub release API response structure
+            download_url = latest_version_info["assets"][0]["browser_download_url"]  # Assuming there's one asset
             if latest_version != CURRENT_VERSION:
                 if messagebox.askyesno("Update Available", f"Version {latest_version} is available. Do you want to update now?"):
                     download_and_install_update(download_url)
@@ -274,7 +274,7 @@ class AccessCodeWindow:
 
     def check_access_code(self):
         access_code = self.access_code_entry.get()
-        if access_code == "Devyzn":
+        if access_code == "correct_code":
             self.open_main_window()
         else:
             messagebox.showerror("Error", "Incorrect access code")
@@ -294,7 +294,7 @@ class MainWindow:
         self.main_window.config(menu=menubar)
 
         file_menu = Menu(menubar, tearoff=False)
-        menubar.add_cascade(label="Settings", menu=file_menu)
+        menubar.add_cascade(label="File", menu=file_menu)
         file_menu.add_command(label="Check for Updates", command=check_for_updates)
         file_menu.add_command(label="Exit", command=self.exit_program)
 
